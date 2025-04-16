@@ -1,0 +1,114 @@
+function curriedAdd(a) {
+    return function(b) {
+      return a + b;
+    };
+  }
+  console.log(curriedAdd(3)(4)); 
+
+
+
+
+
+  
+function compose(f, g) {
+    return function(x) {
+      return f(g(x));
+    };
+  }
+  
+
+  function double(x) {
+    return x * 2;
+  }
+  
+  function square(x) {
+    return x * x;
+  }
+  
+
+  const doubleThenSquare = compose(square, double);
+  const squareThenDouble = compose(double, square);
+  
+  
+  console.log(doubleThenSquare(3));  
+  console.log(squareThenDouble(3));  
+  
+  
+
+
+
+
+
+
+
+  async function fetchUserData() {
+    try {
+      const response = await fetch('https://jsonplaceholder.typicode.com/users');
+      
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      const users = await response.json();
+
+
+      users.forEach(user => {
+        console.log(user.name);
+      });
+      
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  
+  
+  fetchUserData();
+
+
+
+
+
+
+
+
+
+
+  
+function customizeTitle(prefix) {
+    return function(title) {
+      return `${prefix}: ${title}`;
+    };
+  }
+  
+  
+  async function fetchAndShowCompletedTodos() {
+    try {
+      const response = await fetch('https://jsonplaceholder.typicode.com/todos');
+      
+      if (!response.ok) {
+        throw new Error(`خطا در دریافت داده‌ها: ${response.status}`);
+      }
+  
+      const todos = await response.json();
+  
+      
+      const completedTodos = todos.filter(todo => todo.completed);
+  
+      
+      const personalize = customizeTitle("✔ انجام‌شده");
+  
+      
+      completedTodos.forEach(todo => {
+        console.log(personalize(todo.title));
+      });
+  
+    } catch (error) {
+      console.error("❌ خطا:", error);
+    }
+  }
+  
+  
+  fetchAndShowCompletedTodos();
+  
+  
